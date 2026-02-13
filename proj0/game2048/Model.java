@@ -114,11 +114,72 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
 
+        int size = board.size();
+        // always facing NORTH
+        board.setViewingPerspective(side);
+
+        for (int i=0; i<size; i++) {
+            // a single column
+            boolean merged = false;
+
+            for (int j = size - 1; j >= 0; j--) {
+                // a single tile
+                if (board.tile(i, j) == null) {
+                    continue;
+                }
+                int value = board.tile(i, j).value();
+
+                for (int k = j + 1; k < size; k++) {
+                    // merge first
+                    if (board.tile(i, k) != null){
+                        if (board.tile(i, k).value() == value) {
+                            if (merged) {
+                                merged = false;
+                            } else {
+                                Tile t = board.tile(i, j);
+                                board.move(i, k, t);
+                                score += board.tile(i, k).value();
+                                merged = true;
+                                changed = true;
+                            }
+                        } else {
+                            merged = false;
+                        }
+                        break; // once find non-null
+                    }
+                }
+
+                if (!merged) {
+                    // empty second
+                    int empty_pos = -1;
+                    for (int k = j + 1; k < size; k++) {
+                        if (board.tile(i, k) == null) {
+                            empty_pos = k;
+                        }
+                    }
+                    if (empty_pos != -1) {
+                        Tile t = board.tile(i, j);
+                        board.move(i, empty_pos, t);
+                        changed = true;
+                    }
+                }
+            }
+        }
+
+        board.setViewingPerspective(Side.NORTH);
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
+    }
+
+    /** Perform tilt in a single column
+     * and returns the score of it.
+     */
+    private int tiltColumn(int c) {
+
+        return 0;
     }
 
     /** Checks if the game is over and sets the gameOver variable
@@ -138,6 +199,14 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        int size = b.size();
+        for (int i=0; i<size; i++) {
+            for (int j=0; j<size; j++) {
+                if (b.tile(i, j) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,6 +217,15 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        int size = b.size();
+        for (int i=0; i<size; i++) {
+            for (int j=0; j<size; j++) {
+                if (b.tile(i, j) != null && // AND!
+                        b.tile(i, j).value() == MAX_PIECE) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -159,8 +237,30 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        if (emptySpaceExists(b)) {
+            return true;
+        }
+
+        int size = b.size();
+        for (int i=0; i<size; i++) {
+            for (int j=0; j<size-1; j++) {
+                if (b.tile(i, j).value() == b.tile(i, j+1).value()) {
+                    return true;
+                }
+            }
+        }
+
+        for (int i=0; i<size; i++) {
+            for (int j=0; j<size-1; j++) {
+                if (b.tile(j, i).value() == b.tile(j+1, i).value()) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
+
 
 
     @Override
