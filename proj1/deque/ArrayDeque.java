@@ -36,7 +36,6 @@ public class ArrayDeque<T> {
     }
 
     private void resize(int newArraySize) {
-        // TODO
         int newTotalSize = newArraySize + 2;
         T[] newItems = (T[]) new Object[newTotalSize];
         for (int i = head + 1; i <= head + size; i++) {
@@ -58,7 +57,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (size * 4 <= totalSize) {
+        if (size > 8 && size * 4 <= totalSize) {
             resize(totalSize / 4);
         }
         if (size == 0) {
@@ -71,7 +70,7 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
-        if (size * 4 <= totalSize) {
+        if (size > 8 && size * 4 <= totalSize) {
             resize(totalSize / 4);
         }
         if (size == 0) {
