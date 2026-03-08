@@ -6,7 +6,7 @@ public class LinkedListDeque<T> {
         public Node prev;
         public Node next;
 
-        public Node(T v,Node p, Node n) {
+        public Node(T v, Node p, Node n) {
             value = v;
             prev = p;
             next = n;
@@ -36,6 +36,7 @@ public class LinkedListDeque<T> {
 
     /**
      * Adds an item of type T to the back of the deque.
+     * @param item The item you wish to add to the deque.
      */
     public void addLast(T item) {
         Node n = sentinel.prev;
@@ -45,19 +46,23 @@ public class LinkedListDeque<T> {
     }
 
     /**
-     * Returns true if deque is empty, false otherwise.
+     * @return true if deque is empty, false otherwise.
      */
     public boolean isEmpty() {
         return size == 0;
     }
 
-    /*
-    Returns the number of items in the deque.
+    /**
+     * @return the number of items in the deque.
      */
     public int size() {
         return size;
     }
 
+    /**
+     * Prints the items in the deque from first to last, separated by a space.
+     * Once all the items have been printed, print out a new line.
+     */
     public void printDeque() {
         Node n = sentinel.next;
         while (n.next != sentinel) {
