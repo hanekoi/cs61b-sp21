@@ -21,7 +21,7 @@ public class ArrayDeque<T> {
         if (size >= arraySize) {
             resize(arraySize * 4);
         }
-        head = (head - 1) % totalSize;
+        head = (head - 1 + totalSize) % totalSize;
         items[(head + 1) % totalSize] = item;
         size++;
     }
@@ -31,7 +31,7 @@ public class ArrayDeque<T> {
             resize(arraySize * 4);
         }
         tail = (tail + 1) % totalSize;
-        items[(tail - 1) % totalSize] = item;
+        items[(tail - 1 + totalSize) % totalSize] = item; // mod could get -1
         size++;
     }
 
@@ -76,8 +76,8 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        T item = items[(tail - 1) % totalSize];
-        tail = (tail - 1) % totalSize;
+        T item = items[(tail - 1 + totalSize) % totalSize];
+        tail = (tail - 1 + totalSize) % totalSize;
         size--;
         return item;
     }

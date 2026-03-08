@@ -1,5 +1,6 @@
 package deque;
 
+import edu.princeton.cs.algs4.StdRandom;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -134,4 +135,81 @@ public class ArrayDequeTest {
         }
 
     }
+
+    @Test
+    public void randomizedTest() {
+        ArrayDeque<Integer> L = new ArrayDeque<>();
+        ArrayDeque<Integer> LB = new ArrayDeque<>();
+
+        int N = 5000;
+        for (int i = 0; i < N; i += 1) {
+            int operationNumber = StdRandom.uniform(0, 4);
+            if (operationNumber == 0) {
+                // addLast
+                int randVal = StdRandom.uniform(0, 100);
+                L.addLast(randVal);
+                LB.addLast(randVal);
+            } else if (operationNumber == 1) {
+                // size
+                int size = L.size();
+                int sizeB = LB.size();
+                assertEquals(size, sizeB);
+            } else if (operationNumber == 2) {
+                // getLast
+                if (L.size() != 0) {
+                    int last = L.removeLast();
+                    int lastB = LB.removeLast();
+                    assertEquals(last, lastB);
+                }
+            } else if (operationNumber == 3) {
+                // removeLast
+                if (L.size() != 0) {
+                    int last = L.removeLast();
+                    int lastB = LB.removeLast();
+                    assertEquals(last, lastB);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void fillEmptyFill() {
+        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+        for (int i = 0; i < 8; i++) {
+            lld1.addLast(i);
+        }
+
+        for (double i = 0; i < 4; i++) {
+            assertEquals("Should have the same value", i, (double) lld1.removeFirst(), 0.0);
+        }
+
+        for (double i = 7; i > 3; i--) {
+            assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
+        }
+
+        for (int i = 0; i < 8; i++) {
+            lld1.addLast(i);
+        }
+
+        for (double i = 0; i < 4; i++) {
+            assertEquals("Should have the same value", i, (double) lld1.removeFirst(), 0.0);
+        }
+
+        for (double i = 7; i > 3; i--) {
+            assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
+        }
+
+        for (int i = 0; i < 8; i++) {
+            lld1.addFirst(i);
+        }
+
+        for (double i = 0; i < 4; i++) {
+            assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
+        }
+
+        for (double i = 7; i > 3; i--) {
+            assertEquals("Should have the same value", i, (double) lld1.removeFirst(), 0.0);
+        }
+    }
 }
+
