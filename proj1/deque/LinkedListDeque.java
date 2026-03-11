@@ -1,6 +1,6 @@
 package deque;
 
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
     private class Node {
         public T value;
         public Node prev;
@@ -27,6 +27,7 @@ public class LinkedListDeque<T> {
      * Adds an item of type T to the front of the deque.
      * @param item The item you wish to add to the deque.
      */
+    @Override
     public void addFirst(T item) {
         Node n = sentinel.next;
         sentinel.next = new Node(item, sentinel, sentinel.next);
@@ -38,6 +39,7 @@ public class LinkedListDeque<T> {
      * Adds an item of type T to the back of the deque.
      * @param item The item you wish to add to the deque.
      */
+    @Override
     public void addLast(T item) {
         Node n = sentinel.prev;
         sentinel.prev = new Node(item, sentinel.prev, sentinel);
@@ -46,15 +48,9 @@ public class LinkedListDeque<T> {
     }
 
     /**
-     * @return true if deque is empty, false otherwise.
-     */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /**
      * @return the number of items in the deque.
      */
+    @Override
     public int size() {
         return size;
     }
@@ -63,6 +59,7 @@ public class LinkedListDeque<T> {
      * Prints the items in the deque from first to last, separated by a space.
      * Once all the items have been printed, print out a new line.
      */
+    @Override
     public void printDeque() {
         Node n = sentinel.next;
         while (n != sentinel) {
@@ -73,6 +70,7 @@ public class LinkedListDeque<T> {
         System.out.println();
     }
 
+    @Override
     public T removeFirst() {
         if (size == 0) {
             return null;
@@ -85,6 +83,7 @@ public class LinkedListDeque<T> {
         }
     }
 
+    @Override
     public T removeLast() {
         if (size == 0) {
             return null;
@@ -97,6 +96,7 @@ public class LinkedListDeque<T> {
         }
     }
 
+    @Override
     public T get(int index) {
         if (index >= size) {
             return null;
