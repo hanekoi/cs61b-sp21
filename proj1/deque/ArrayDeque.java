@@ -123,7 +123,8 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ArrayDeque listObj){
+        if (obj instanceof ArrayDeque){
+            ArrayDeque<T> listObj = (ArrayDeque<T>) obj;
             if (size == listObj.size()) {
                 Iterator<T> it = iterator();
                 Iterator<T> ito = listObj.iterator();
