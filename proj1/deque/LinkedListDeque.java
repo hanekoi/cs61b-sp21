@@ -2,13 +2,13 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class Node {
         private T value;
         private Node prev;
         private Node next;
 
-        public Node(T v, Node p, Node n) {
+        Node(T v, Node p, Node n) {
             value = v;
             prev = p;
             next = n;
@@ -115,15 +115,15 @@ public class LinkedListDeque<T> implements Deque<T> {
         if (index >= size) {
             return null;
         } else {
-            return _getRecursive(index, sentinel.next);
+            return getRecursiveHelper(index, sentinel.next);
         }
     }
 
-    private T _getRecursive(int index, Node n) {
+    private T getRecursiveHelper(int index, Node n) {
         if (index == 0) {
             return n.value;
         } else {
-            return  _getRecursive(index - 1, n.next);
+            return  getRecursiveHelper(index - 1, n.next);
         }
     }
 
@@ -143,17 +143,17 @@ public class LinkedListDeque<T> implements Deque<T> {
         }
     }
 
+    @Override
     public Iterator<T> iterator() {
         return new LinkedListDequeIterator();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof LinkedListDeque){
-            LinkedListDeque<T> listO = (LinkedListDeque<T>) o;
-            if (size == listO.size()) {
+    public boolean equals(Object obj) {
+        if (obj instanceof Deque) {
+            Deque<T> listObj = (Deque<T>) obj;
+            if (size() == listObj.size()) {
                 Iterator<T> it = iterator();
-                Iterator<T> ito = listO.iterator();
+                Iterator<T> ito = listObj.iterator();
 
                 while (it.hasNext() && ito.hasNext()) {
                     if (it.next() != ito.next()) {
