@@ -2,6 +2,9 @@ package deque;
 
 import edu.princeton.cs.algs4.StdRandom;
 import org.junit.Test;
+
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 
@@ -177,5 +180,49 @@ public class LinkedListDequeTest {
                 }
             }
         }
+    }
+
+    @Test
+    public void IteratorTest() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> lld3 = new LinkedListDeque<>();
+        LinkedListDeque<Double> lld4 = new LinkedListDeque<>();
+
+        for (int i = 0; i < 10; i++) {
+            lld1.addLast(i);
+            lld2.addLast(i);
+            lld3.addLast(i + 3);
+            lld4.addLast((double) i);
+        }
+
+        Iterator<Integer> it1 = lld1.iterator();
+        Iterator<Integer> it2 = lld2.iterator();
+
+        while (it1.hasNext() && it2.hasNext()) {
+            int v1 = it1.next();
+            int v2 = it2.next();
+            System.out.println(v1 + " and " + v2);
+            assertTrue(v1 == v1);
+        }
+    }
+
+    @Test
+    public void EqualsTest() {
+        LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> lld2 = new LinkedListDeque<>();
+        LinkedListDeque<Integer> lld3 = new LinkedListDeque<>();
+        LinkedListDeque<Double> lld4 = new LinkedListDeque<>();
+
+        for (int i = 0; i < 10; i++) {
+            lld1.addLast(i);
+            lld2.addLast(i);
+            lld3.addLast(i + 3);
+            lld4.addLast((double) i);
+        }
+
+        assertTrue(lld1.equals(lld2));
+        assertFalse(lld1.equals(lld3));
+        assertFalse(lld1.equals(lld4));
     }
 }

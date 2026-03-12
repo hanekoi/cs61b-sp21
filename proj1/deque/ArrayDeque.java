@@ -1,5 +1,7 @@
 package deque;
 
+import java.util.Iterator;
+
 public class ArrayDeque<T> implements Deque<T> {
     private T[] items;
     private int head;
@@ -98,5 +100,42 @@ public class ArrayDeque<T> implements Deque<T> {
             System.out.print(' ');
         }
         System.out.println();
+    }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        int currIdx = 0;
+
+        @Override
+        public boolean hasNext() {
+            return currIdx < size;
+        }
+
+        @Override
+        public T next() {
+            currIdx++;
+            return get(currIdx - 1);
+        }
+    }
+
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ArrayDeque listObj){
+            if (size == listObj.size()) {
+                Iterator<T> it = iterator();
+                Iterator<T> ito = listObj.iterator();
+
+                while (it.hasNext() && ito.hasNext()) {
+                    if (it.next() != ito.next()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }

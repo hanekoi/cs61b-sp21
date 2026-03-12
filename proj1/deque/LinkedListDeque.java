@@ -1,10 +1,12 @@
 package deque;
 
+import java.util.Iterator;
+
 public class LinkedListDeque<T> implements Deque<T> {
     private class Node {
-        public T value;
-        public Node prev;
-        public Node next;
+        private T value;
+        private Node prev;
+        private Node next;
 
         public Node(T v, Node p, Node n) {
             value = v;
@@ -123,5 +125,43 @@ public class LinkedListDeque<T> implements Deque<T> {
         } else {
             return  _getRecursive(index - 1, n.next);
         }
+    }
+
+    private class LinkedListDequeIterator implements Iterator<T> {
+        Node currNode = sentinel.next;
+
+        @Override
+        public boolean hasNext() {
+            return currNode != sentinel;
+        }
+
+        @Override
+        public T next() {
+            T currVal = currNode.value;
+            currNode = currNode.next;
+            return currVal;
+        }
+    }
+
+    public Iterator<T> iterator() {
+        return new LinkedListDequeIterator();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof LinkedListDeque listO){
+            if (size == listO.size()) {
+                Iterator<T> it = iterator();
+                Iterator<T> ito = listO.iterator();
+
+                while (it.hasNext() && ito.hasNext()) {
+                    if (it.next() != ito.next()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }
