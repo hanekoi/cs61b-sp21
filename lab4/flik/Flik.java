@@ -7,7 +7,8 @@ public class Flik {
     /** @param a Value 1
      *  @param b Value 2
      *  @return Whether a and b are the same */
-    public static boolean isSameNumber(Integer a, Integer b) {
-        return a == b;
+    public static boolean isSameNumber(int a, int b) {
+        // int stores the value directly; Integer is the box of int
+        return a == b; // 128 trap, == compares the address of the objects
     }
 }
