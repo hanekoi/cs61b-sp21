@@ -1,10 +1,12 @@
 package capers;
 
 import java.io.File;
+import java.io.IOException;
+
 import static capers.Utils.*;
 
 /** A repository for Capers 
- * @author TODO
+ * @author Hanekoi
  * The structure of a Capers Repository is as follows:
  *
  * .capers/ -- top level folder for all persistent data in your lab12 folder
@@ -18,8 +20,8 @@ public class CapersRepository {
     static final File CWD = new File(System.getProperty("user.dir"));
 
     /** Main metadata folder. */
-    static final File CAPERS_FOLDER = null; // TODO Hint: look at the `join`
-                                            //      function in Utils
+    static final File CAPERS_FOLDER = Utils.join(CWD, ".capers"); // Hint: look at the `join`
+                                                                          //      function in Utils
 
     /**
      * Does required filesystem operations to allow for persistence.
@@ -31,7 +33,15 @@ public class CapersRepository {
      *    - story -- file containing the current story
      */
     public static void setupPersistence() {
-        // TODO
+        CAPERS_FOLDER.mkdir();
+        Dog.DOG_FOLDER.mkdir();
+        File story = Utils.join(CAPERS_FOLDER, "story");
+        // TODO: understand try-catch
+        try {
+            story.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -41,6 +51,18 @@ public class CapersRepository {
      */
     public static void writeStory(String text) {
         // TODO
+        File story = Utils.join(CAPERS_FOLDER, "story");
+        if (story.exists()) {
+            StringBuilder storyBuilder = new StringBuilder();
+            storyBuilder.append(Utils.readContentsAsString(story));
+            storyBuilder.append(text);
+            storyBuilder.append('\n');
+            String storyContent = storyBuilder.toString();
+            System.out.print(storyContent);
+            Utils.writeContents(story,storyContent);
+        } else {
+            setupPersistence();
+        }
     }
 
     /**
