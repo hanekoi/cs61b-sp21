@@ -13,7 +13,6 @@ import static capers.Utils.*;
  *    - dogs/ -- folder containing all of the persistent data for dogs
  *    - story -- file containing the current story
  *
- * TODO: change the above structure if you do something different.
  */
 public class CapersRepository {
     /** Current Working Directory. */
@@ -36,7 +35,7 @@ public class CapersRepository {
         CAPERS_FOLDER.mkdir();
         Dog.DOG_FOLDER.mkdir();
         File story = Utils.join(CAPERS_FOLDER, "story");
-        // TODO: understand try-catch
+        // TODO: understand try-catch and exception
         try {
             story.createNewFile();
         } catch (IOException e) {
@@ -62,6 +61,7 @@ public class CapersRepository {
             Utils.writeContents(story,storyContent);
         } else {
             setupPersistence();
+            writeStory(text);
         }
     }
 
@@ -71,7 +71,9 @@ public class CapersRepository {
      * Also prints out the dog's information using toString().
      */
     public static void makeDog(String name, String breed, int age) {
-        // TODO
+        Dog d = new Dog(name, breed, age);
+        d.saveDog();
+        System.out.println(d);
     }
 
     /**
@@ -81,6 +83,10 @@ public class CapersRepository {
      * @param name String name of the Dog whose birthday we're celebrating.
      */
     public static void celebrateBirthday(String name) {
-        // TODO
+        Dog d =Dog.fromFile(name);
+        if (d != null) {
+            d.haveBirthday();
+            d.saveDog();
+        }
     }
 }
